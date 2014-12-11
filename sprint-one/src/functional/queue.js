@@ -1,6 +1,7 @@
 var Queue = function(){
   var someInstance = {};
-
+  var enqueueCounter = 0;
+  var dequeueCounter = 0;
   // Use an object with numeric keys to store values
   var storage = {};
   var counter = 0;
@@ -9,26 +10,22 @@ var Queue = function(){
   // Implement the methods below
 
   someInstance.enqueue = function(value){
-    counter++;
-    storage[counter] = value;
+    storage[enqueueCounter] = value;
+    enqueueCounter++;
   };
 
   someInstance.dequeue = function(){
-    if (counter > 0) { 
-      totaldequeue++;
-      var item = storage[nextFifo];
-      nextFifo++;
-      return item;
+    if (enqueueCounter-dequeueCounter > 0) {
+      var result = storage[dequeueCounter];
+      delete storage[dequeueCounter];
+      dequeueCounter++;
+      return result;
     }
-    
   };
 
   someInstance.size = function(){
-    var size = (counter - totaldequeue);
-    if (size<0) {
-      return 0
-    }
-    return size
+    return (enqueueCounter-dequeueCounter);
+
   };
 
   return someInstance;
